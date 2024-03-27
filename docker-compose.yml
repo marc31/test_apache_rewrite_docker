@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  apache:
+    image: 'bitnami/apache:2.4.58-debian-12-r20'
+    ports:
+      # Map host port 80 to container port 8080 for HTTP access
+      - '80:8080'
+      # SSL port mapping
+      # - '443:8443'
+    volumes:
+      # Mount the ./app directory on the host to /app in the container
+      # /opt/bitnami/apache/htdocs/ is a symlink to /app
+      - ./app:/app
+      #If we bind this at the start of the container, 
+      # it will copy it to /opt/bitnami/apache/conf/vhosts/. 
+      # However, for testing purposes, we want to modify the file and observe the changes.
+      # - ./conf/my_vhost.conf:/vhosts/my_vhost.conf:ro
+      - ./conf/my_vhost.conf:/opt/bitnami/apache/conf/vhosts/my_vhost.conf
+      # Optionally mount main Apache configuration file for customization
+      # - ./conf/httpd.conf:/opt/bitnami/apache/conf/httpd.conf
